@@ -14,4 +14,4 @@ This application is a SaaS project to learn a new language.
 - Icons: https://iconduck.com/licenses/mit 
 
 ## Time stamp:
-- 00:56:44
+- 00:57:18
