@@ -1,4 +1,4 @@
-This application is a SaaS project to learn a new language.
+This application is a SaaS project designed to help users learn a new language. It is intended to replicate that "gamey" vibe that duolingo has.
 
 (More descriptive README coming soon)
 
@@ -14,4 +14,4 @@ This application is a SaaS project to learn a new language.
 - Icons: https://iconduck.com/licenses/mit 
 
 ## Time stamp:
-- 00:57:18
+- 01:00:44

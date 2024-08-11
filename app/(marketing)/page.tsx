@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ClerkLoaded, ClerkLoading, SignInButton, SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -39,7 +40,11 @@ export default function Home() {
               </SignInButton>
             </SignedOut>
             <SignedIn>
-
+              <Button className="w-full" size="lg" asChild variant="secondary">
+                <Link href="/learn">
+                  Continue Learning
+                </Link>
+              </Button>
             </SignedIn>
           </ClerkLoaded>
         </div>
