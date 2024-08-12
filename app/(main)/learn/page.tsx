@@ -1,6 +1,8 @@
 const LearnPage = () => {
     return (
-        <div>Learn Page</div>
+        <div>
+            Learn Page
+        </div>
     );
 }
 
