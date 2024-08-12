@@ -5,6 +5,7 @@ This application is a SaaS project designed to help users learn a new language. 
 
 ## API References/Docs
 - Clerk: https://go.clerk.com/wmPbEeD
+- Neon: https://neon.tech/docs/introduction 
 
 ## Asset Links
 - Kenney Assets: https://kenney.nl/ 
@@ -14,4 +15,4 @@ This application is a SaaS project designed to help users learn a new language. 
 - Icons: https://iconduck.com/licenses/mit 
 
 ## Time stamp:
-- 02:00:43
+- 02:11:55
