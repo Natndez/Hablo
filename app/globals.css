@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* To be able to access full height of all pages */
+html,
+body,
+:root {
+  @apply h-full;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
