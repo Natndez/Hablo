@@ -1,7 +1,16 @@
+import { FeedWrapper } from "@/components/feed-wrapper";
+import { StickyWrapper } from "@/components/sticky-wrapper";
+import { Header } from "@/app/(main)/learn/header";
+
 const LearnPage = () => {
     return (
-        <div>
-            Learn Page
+        <div className="flex flex-row-reverse gap-[48px] px-6">
+            <StickyWrapper>
+                My sticky sidebar
+            </StickyWrapper>
+            <FeedWrapper>
+                <Header title="Spanish" />
+            </FeedWrapper>
         </div>
     );
 }
