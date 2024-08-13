@@ -1,4 +1,4 @@
-// DB schema
+// Entire DB schema
 
 import { relations } from "drizzle-orm";
 import { pgTable, serial, text, integer } from "drizzle-orm/pg-core"
@@ -13,6 +13,24 @@ export const courses = pgTable("courses", {
 // Relation between courses (many to many)
 export const coursesRelations = relations(courses, ({ many }) => ({
     userProgress: many(userProgress),
+    units: many(units),
+}));
+
+// Units Tables (Courses are made up of units) 
+export const units = pgTable("units", {
+    id: serial("id").primaryKey(), // unit id number (serial so it auto increments)
+    title: text("title").notNull(), // e.g. unit 1...
+    description: text("description").notNull(), // Learn how to speak basic italian...
+    courseId: integer("course_id").references(() => courses.id, { onDelete: "cascade" }).notNull(), // Id of the course the unit belongs to
+    order: integer("order").notNull(), // Will be used in the logic of ordering the units page
+});
+
+// Defining the relationships involved with the units table
+const unitRelations = relations(units, ({ many, one }) => ({
+    course: one(courses, {
+        fields: [units.courseId],
+        references: [courses.id],
+    }),
 }));
 
 // User progress table 
@@ -31,4 +49,4 @@ export const userProgressRelations = relations(userProgress, ({ one }) => ({
         fields: [userProgress.activeCourseId],
         references: [courses.id],
     })
-}))
+}));

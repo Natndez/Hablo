@@ -24,4 +24,4 @@ This application is a SaaS project designed to help users learn a new language. 
 
 
 ## Time stamp:
-- 03:09:43
+- 03:24:10
