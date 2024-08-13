@@ -1,7 +1,9 @@
+// File containing a whole bunch of queries
+
 import { cache } from "react";
 import db from "@/db/drizzle"
 import { auth } from "@clerk/nextjs/server";
-import { userProgress } from "./schema";
+import { courses, userProgress } from "./schema";
 import { eq } from "drizzle-orm";
 
 // Query to get user progress
@@ -31,3 +33,13 @@ export const getCourses = cache(async () => {
 
     return data;
 });
+
+// Query to get the course by the id number
+export const getCourseById = cache(async (courseId: number) => {
+    const data = await db.query.courses.findFirst({
+        where: eq(courses.id, courseId),
+        // TODO: Populate units and lessons
+    });
+
+    return data;
+})
