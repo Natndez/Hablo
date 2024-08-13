@@ -26,12 +26,29 @@ export const units = pgTable("units", {
 });
 
 // Defining the relationships involved with the units table
-const unitRelations = relations(units, ({ many, one }) => ({
+export const unitsRelations = relations(units, ({ many, one }) => ({
     course: one(courses, {
         fields: [units.courseId],
         references: [courses.id],
     }),
+    lessons: many(lessons), // as units have many lessons inside
 }));
+
+// Lessons table
+export const lessons = pgTable("lessons", {
+    id: serial("id").primaryKey(), // lesson id number (lessons belong to units)
+    title: text("title").notNull(), // Title of the lesson
+    unitId: integer("unit_id").references(() => units.id, { onDelete: "cascade" }).notNull(), // the unit that the lesson belongs to
+    order: integer("order").notNull(), // Similar to the units, lessons are given in a particular order, needs to be tracked.
+})
+
+// Relationships for lessons
+export const lessonsRelations = relations(lessons, ({ many, one }) => ({
+    unit: one(units, {
+        fields: [lessons.unitId],
+        references: [units.id], 
+    }),
+}))
 
 // User progress table 
 export const userProgress = pgTable("user_progress", {
