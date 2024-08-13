@@ -1,7 +1,7 @@
 // Entire DB schema
 
 import { relations } from "drizzle-orm";
-import { pgTable, serial, text, integer } from "drizzle-orm/pg-core"
+import { pgTable, serial, text, integer, pgEnum } from "drizzle-orm/pg-core"
 
 // Courses Table
 export const courses = pgTable("courses", {
@@ -48,7 +48,29 @@ export const lessonsRelations = relations(lessons, ({ many, one }) => ({
         fields: [lessons.unitId],
         references: [units.id], 
     }),
-}))
+    challenges: many(challenges), // lessons contain many challenges 
+}));
+
+// For classifying challenges
+export const challengesEnum = pgEnum("type", ["SELECT", "ASSIST"]); // add new challenges here
+
+// Challenges table
+export const challenges = pgTable("challenges", {
+    id: serial("id").primaryKey(), // challenge id number (challenges belong to lessons)
+    lessonId: integer("lesson_id").references(() => lessons.id, { onDelete: "cascade" }).notNull(),
+    type: challengesEnum("type").notNull(), // type of challenge
+    question: text("question").notNull(), // the question / challenge being asked
+    order: integer("order").notNull(), // to store challenges in a particular order if desired
+});
+
+// Relationships for challenges
+export const challengesRelations = relations(challenges, ({ many, one }) => ({
+    lesson: one(lessons, {
+        fields: [challenges.lessonId],
+        references: [lessons.id],
+    }),
+}));
+
 
 // User progress table 
 export const userProgress = pgTable("user_progress", {
