@@ -1,12 +1,12 @@
 "use client";
 
-import { courses } from "@/db/schema";
+import { courses, userProgress } from "@/db/schema";
 import { Card } from "@/app/(main)/courses/card";
 
 // Props for list component
 type Props = {
     courses: typeof courses.$inferSelect[];
-    activeCourseId: number;
+    activeCourseId?: typeof userProgress.$inferSelect.activeCourseId; // getting the exact type
 };
 
 export const List = ({ courses, activeCourseId }: Props) => {
