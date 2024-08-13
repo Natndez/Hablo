@@ -20,7 +20,8 @@ This application is a SaaS project designed to help users learn a new language. 
 - Run the following commands for their respective uses:
     - `npm run db:push`
     - `npm run db:studio`
+    - `npm run db:seed`
 
 
 ## Time stamp:
-- 02:58:50
+- 03:09:43
