@@ -5,6 +5,7 @@ import { Card } from "@/app/(main)/courses/card";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { upsertUserProgress } from "@/actions/user-progress";
+import { toast } from "sonner";
 
 // Props for list component
 type Props = {
@@ -25,7 +26,8 @@ export const List = ({ courses, activeCourseId }: Props) => {
 
         // If user is selecting a new course (calling server action)
         startTransition(() => {
-            upsertUserProgress(id);
+            upsertUserProgress(id)
+                .catch(() => toast.error("Something went wrong")); // Triggers toaster
         });
     }
 
