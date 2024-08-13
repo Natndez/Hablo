@@ -23,14 +23,14 @@ const LearnPage = async () => {
         <div className="flex flex-row-reverse gap-[48px] px-6">
             <StickyWrapper>
                 <UserProgress 
-                    activeCourse={{ title: "Spanish", imageSrc: "/temp/es.svg" }}
-                    hearts={5}
-                    points={100}
-                    hasActiveSubscription={false}
+                    activeCourse={userProgress.activeCourse}
+                    hearts={userProgress.hearts}
+                    points={userProgress.points}
+                    hasActiveSubscription={false} // Change when subscription is implemented
                 />
             </StickyWrapper>
             <FeedWrapper>
-                <Header title="Spanish" />
+                <Header title={userProgress.activeCourse.title} />
             </FeedWrapper>
         </div>
     );
