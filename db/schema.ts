@@ -1,7 +1,7 @@
 // Entire DB schema
 
 import { relations } from "drizzle-orm";
-import { pgTable, serial, text, integer, pgEnum } from "drizzle-orm/pg-core"
+import { pgTable, serial, text, integer, pgEnum, boolean } from "drizzle-orm/pg-core"
 
 // Courses Table
 export const courses = pgTable("courses", {
@@ -68,6 +68,25 @@ export const challengesRelations = relations(challenges, ({ many, one }) => ({
     lesson: one(lessons, {
         fields: [challenges.lessonId],
         references: [lessons.id],
+    }),
+    challengeOptions: many(challengeOptions),
+}));
+
+// Challenge Options table
+export const challengeOptions = pgTable("challengeOptions", {
+    id: serial("id").primaryKey(), // challenge id number (challenges belong to lessons)
+    challengeId: integer("lesson_id").references(() => challenges.id, { onDelete: "cascade" }).notNull(),
+    text: text("text").notNull(), // the question / challenge being asked
+    correct: boolean("correct").notNull(),
+    imageSrc: text("image_src"), // not required
+    audioSrc: text("audio_src"), // for sound effects etc.
+});
+
+// Relationships for challenges options
+export const challengeOptionsRelations = relations(challengeOptions, ({ many, one }) => ({
+    challenge: one(challenges, {
+        fields: [challengeOptions.challengeId],
+        references: [challenges.id],
     }),
 }));
 
