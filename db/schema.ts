@@ -70,12 +70,13 @@ export const challengesRelations = relations(challenges, ({ many, one }) => ({
         references: [lessons.id],
     }),
     challengeOptions: many(challengeOptions),
+    challengeProgress: many(challengeProgress),
 }));
 
 // Challenge Options table
 export const challengeOptions = pgTable("challengeOptions", {
     id: serial("id").primaryKey(), // challenge id number (challenges belong to lessons)
-    challengeId: integer("lesson_id").references(() => challenges.id, { onDelete: "cascade" }).notNull(),
+    challengeId: integer("challenge_id").references(() => challenges.id, { onDelete: "cascade" }).notNull(),
     text: text("text").notNull(), // the question / challenge being asked
     correct: boolean("correct").notNull(),
     imageSrc: text("image_src"), // not required
@@ -86,6 +87,22 @@ export const challengeOptions = pgTable("challengeOptions", {
 export const challengeOptionsRelations = relations(challengeOptions, ({ many, one }) => ({
     challenge: one(challenges, {
         fields: [challengeOptions.challengeId],
+        references: [challenges.id],
+    }),
+}));
+
+// Challenge Progress table
+export const challengeProgress = pgTable("challengeOptions", {
+    id: serial("id").primaryKey(), // challenge id number (challenges belong to lessons)
+    userId: text("user_id").notNull(), // to track which user etc etc
+    challengeId: integer("challenge_id").references(() => challenges.id, { onDelete: "cascade" }).notNull(),
+    completed: boolean("completed").notNull().default(false), // To track if a user has done a particular question or not
+});
+
+// Relationships for challenges progress
+export const challengeProgressRelations = relations(challengeProgress, ({ many, one }) => ({
+    challenge: one(challenges, {
+        fields: [challengeProgress.challengeId],
         references: [challenges.id],
     }),
 }));
@@ -106,5 +123,5 @@ export const userProgressRelations = relations(userProgress, ({ one }) => ({
     activeCourse: one(courses, {
         fields: [userProgress.activeCourseId],
         references: [courses.id],
-    })
+    }),
 }));
