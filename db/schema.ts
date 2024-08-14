@@ -74,7 +74,7 @@ export const challengesRelations = relations(challenges, ({ many, one }) => ({
 }));
 
 // Challenge Options table
-export const challengeOptions = pgTable("challengeOptions", {
+export const challengeOptions = pgTable("challenge_options", {
     id: serial("id").primaryKey(), // challenge id number (challenges belong to lessons)
     challengeId: integer("challenge_id").references(() => challenges.id, { onDelete: "cascade" }).notNull(),
     text: text("text").notNull(), // the question / challenge being asked
@@ -92,7 +92,7 @@ export const challengeOptionsRelations = relations(challengeOptions, ({ many, on
 }));
 
 // Challenge Progress table
-export const challengeProgress = pgTable("challengeProgress", {
+export const challengeProgress = pgTable("challenge_progress", {
     id: serial("id").primaryKey(), // challenge id number (challenges belong to lessons)
     userId: text("user_id").notNull(), // to track which user etc etc
     challengeId: integer("challenge_id").references(() => challenges.id, { onDelete: "cascade" }).notNull(),
