@@ -3,16 +3,23 @@ import { StickyWrapper } from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
 
 import { Header } from "@/app/(main)/learn/header";
-import { getUserProgress } from "@/db/queries";
+import { getUnits, getUserProgress } from "@/db/queries";
 import { redirect } from "next/navigation";
 
 const LearnPage = async () => {
+    // using getUnits query from queries.ts
+    const unitsData = getUnits();
+
+    // User progress from queries as well
     const userProgressData = getUserProgress();
 
+    // Populating data (units and user progress)
     const [
-        userProgress
+        userProgress,
+        units,
     ] = await Promise.all([
-        userProgressData
+        userProgressData,
+        unitsData,
     ]);
 
     if (!userProgress || !userProgress.activeCourse) {
@@ -31,6 +38,13 @@ const LearnPage = async () => {
             </StickyWrapper>
             <FeedWrapper>
                 <Header title={userProgress.activeCourse.title} />
+                {units.map((unit) => (
+                    <div key={unit.id} className="mb-10">
+                        {/* Returning all lessons with completion indication */}
+                        {/* TODO: Change to front end code not json */}
+                        {JSON.stringify(unit)}
+                    </div>
+                ))}
             </FeedWrapper>
         </div>
     );
