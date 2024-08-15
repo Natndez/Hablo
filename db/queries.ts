@@ -3,7 +3,7 @@
 import { cache } from "react";
 import db from "@/db/drizzle"
 import { auth } from "@clerk/nextjs/server";
-import { challenges, courses, units, userProgress } from "./schema";
+import { challengeProgress, challenges, courses, units, userProgress } from "./schema";
 import { eq } from "drizzle-orm";
 
 // Query to get user progress
@@ -25,12 +25,16 @@ export const getUserProgress = cache(async () => {
     return data;
 });
 
+// COULD BE FASTER
 // Using challenge progress to detect if a lesson is finished or not
 // Get units method
 export const getUnits = cache(async () => {
+    // User id from clerk
+    const { userId } = await auth()
+    // Our user progress data
     const userProgress = await getUserProgress();
 
-    if(!userProgress?.activeCourseId) {
+    if(!userId || !userProgress?.activeCourseId) {
         return [];
     }
 
@@ -41,7 +45,9 @@ export const getUnits = cache(async () => {
                 with: {
                     challenges: {
                         with: {
-                            challengeProgress: true, // "Nesting" withs all the way to get challenge progress
+                            challengeProgress: {
+                                where: eq(challengeProgress.userId, userId),
+                            }, // "Nesting" withs to get challenge progress
                         },
                     },
                 },
