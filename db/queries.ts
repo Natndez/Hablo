@@ -3,7 +3,7 @@
 import { cache } from "react";
 import db from "@/db/drizzle"
 import { auth } from "@clerk/nextjs/server";
-import { challengeProgress, challenges, courses, units, userProgress } from "./schema";
+import { challengeProgress, challenges, courses, lessons, units, userProgress } from "./schema";
 import { eq } from "drizzle-orm";
 
 // Query to get user progress
@@ -98,4 +98,52 @@ export const getCourseById = cache(async (courseId: number) => {
     });
 
     return data;
-})
+});
+
+// To Find out where the user is in a particular course
+export const getCourseProgress = cache(async () => {
+    const { userId } = await auth();
+    const userProgress = await getUserProgress();
+
+    if (!userId || !userProgress?.activeCourseId) {
+        return null;
+    }
+
+    // Which units are in a course?
+    const unitsInActiveCourse = await db.query.units.findMany({
+        orderBy: (units, { asc }) => [asc(units.order)],
+        where: eq(units.courseId, userProgress.activeCourseId),
+        with: {
+            lessons: {
+                orderBy: (lessons, { asc }) => [asc(lessons.order)],
+                with: {
+                    unit: true,
+                    challenges: {
+                        with: {
+                            challengeProgress: {
+                                where: eq(challengeProgress.userId, userId),
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    // The next lesson for the user to do
+    const firstUncompletedLesson = unitsInActiveCourse
+        .flatMap((unit) => unit.lessons)
+        .find((lesson) => {
+            return lesson.challenges.some((challenge) => {
+                return !challenge.challengeProgress || challenge.challengeProgress.length === 0;
+            });
+        });
+    
+    // What our query returns
+    return {
+        activeLesson: firstUncompletedLesson,
+        activeLessonId: firstUncompletedLesson?.id,
+    };
+});
+
+// Get Lesson method (similarish to getCourseProgress)
