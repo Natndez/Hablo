@@ -1,3 +1,7 @@
+![Next.js](https://img.shields.io/badge/framework-Next.js-white)
+![TypeScript](https://img.shields.io/badge/language-TypeScript-blue)
+![Status](https://img.shields.io/badge/Status-Development-green)
+
 # Hablo: Language Learning Made Fun
 
 Hablo is a "SaaS" application designed to help users learn new languages in an engaging and interactive way. Inspired by the "gamey" feel of Duolingo, Hablo incorporates a structured and simple approach to language learning, breaking down courses into units, lessons, and challenges that keep users motivated to progress. 
