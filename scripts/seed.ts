@@ -77,6 +77,30 @@ const main = async () => {
                 order: 1,   // Order of the lessons
                 title: "Nouns", // Lesson title
             },
+            {
+                id: 2,  // Lessons Id
+                unitId: 1, // Unit 1 (Basics)
+                order: 2,   // Order of the lessons
+                title: "Verbs", // Lesson title
+            },
+            {
+                id: 3,  // Lessons Id
+                unitId: 1, // Unit 1 (Basics)
+                order: 3,   // Order of the lessons
+                title: "Pronouns", // Lesson title
+            },
+            {
+                id: 4,  // Lessons Id
+                unitId: 1, // Unit 1 (Basics)
+                order: 4,   // Order of the lessons
+                title: "Adjectives", // Lesson title
+            },
+            {
+                id: 5,  // Lessons Id
+                unitId: 1, // Unit 1 (Basics)
+                order: 5,   // Order of the lessons
+                title: "More Nouns", // Lesson title
+            },
         ]);
 
         // Seeding challenges
