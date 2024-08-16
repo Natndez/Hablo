@@ -134,8 +134,11 @@ export const getCourseProgress = cache(async () => {
     const firstUncompletedLesson = unitsInActiveCourse
         .flatMap((unit) => unit.lessons)
         .find((lesson) => {
+            // TODO: Check last clause in case of issue
             return lesson.challenges.some((challenge) => {
-                return !challenge.challengeProgress || challenge.challengeProgress.length === 0;
+                return !challenge.challengeProgress 
+                || challenge.challengeProgress.length === 0 
+                || challenge.challengeProgress.some((progress) => progress.completed === false);
             });
         });
     
@@ -147,3 +150,72 @@ export const getCourseProgress = cache(async () => {
 });
 
 // Get Lesson method (similarish to getCourseProgress)
+export const getLesson = cache(async (id?: number) => {
+    const { userId } = await auth();
+    const courseProgress = await getCourseProgress();
+
+    if(!userId) {
+        return null; // No point in doing the rest without userId
+    }
+
+    // Getting the current lesson id
+    const lessonId = id || courseProgress?.activeLessonId;
+
+    if(!lessonId) {
+        return null; // Nothing can be returned without an id
+    };
+
+    const data = await db.query.lessons.findFirst({
+        where: eq(lessons.id, lessonId),
+        with: {
+            challenges: {
+                orderBy: (challenges, { asc }) => [asc(challenges.order)],
+                with: {
+                    challengeOptions: true,
+                    challengeProgress: {
+                        where: eq(challengeProgress.userId, userId),
+                    },
+                },
+            },
+        },
+    });
+
+    if (!data || !data.challenges) {
+        return null; // Nothing to display without data or challenges
+    };
+
+    // Normalizing challenges to show completed status (similar to getUnits)
+    const normalizedChallenges = data.challenges.map((challenge) => {
+        const completed = challenge.challengeProgress && challenge.challengeProgress.length > 0 && challenge.challengeProgress.every((progress) => progress.completed);
+
+        return { ...challenge, completed };
+    });
+    return { ...data, challenges: normalizedChallenges };
+});
+
+// Percent completion of a lesson
+export const getLessonPercentage = cache(async () => {
+    const courseProgress = await getCourseProgress();
+
+    if(!courseProgress?.activeLessonId) {
+        return 0;
+    };
+
+    // Using getLesson function with our id
+    const lesson = await getLesson(courseProgress.activeLessonId);
+    
+    // If no lesson, no percent to return
+    if (!lesson) {
+        return 0;
+    };
+
+    // Returns array of completed challenges
+    const completedChallenges = lesson.challenges
+        .filter((challenge) => challenge.completed);
+    
+    // Percentage calculation
+    const percentage = Math.round( (completedChallenges.length / lesson.challenges.length) * 100, );
+
+    // Returns newly calculated lesson completion percentage
+    return percentage;
+});
