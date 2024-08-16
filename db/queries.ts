@@ -61,6 +61,10 @@ export const getUnits = cache(async () => {
     const normalizedData = data.map((unit) => {
         // Getting all lessons with a completed status
         const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
+            if (lesson.challenges.length === 0) {
+                return { ...lesson, completed: false }; // To account for edge case, would only happen in development
+            }
+
             // getting all completed challenges
             const allCompletedChallenges = lesson.challenges.every((challenge) => {
                 // Returns completed challenges without storing if a challenge is completed essentially
