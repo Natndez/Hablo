@@ -1,3 +1,5 @@
+// Doesnt need to be marked as use client as it is only used in a client component
+
 // Types for header! :)
 type Props = {
     hearts: number;
