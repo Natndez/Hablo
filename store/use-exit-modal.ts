@@ -11,7 +11,7 @@ type ExitModalState = {
 
 // Zustand store to manange modal state
 export const useExitModal = create<ExitModalState>((set) => ({
-    isOpen: false,
+    isOpen: false, 
     open : () => set({ isOpen: true}),
     close: () => set({ isOpen: false}),
 }));
