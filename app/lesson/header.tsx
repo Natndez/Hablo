@@ -22,7 +22,6 @@ export const Header = ({
     const { open } = useExitModal();
 
     return (
-        <div>
             <header className="lg:pt-[50px] pt-[20px] px-10 flex gap-x-7 items-center justify-between max-w-[1140px] mx-auto w-full">
                 <X 
                     onClick={open} // TODO: add exit onClick
@@ -44,6 +43,5 @@ export const Header = ({
                     }
                 </div>
             </header>
-        </div>
     );
 }
