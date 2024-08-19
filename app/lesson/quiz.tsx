@@ -57,7 +57,7 @@ export const Quiz = ({
                             {title}
                         </h1>
                         <div>
-                            {challenge.type === "SELECT" && (
+                            {challenge.type === "ASSIST" && (
                                 <QuestionBubble question={challenge.question}/>
                             )}
                         </div>
