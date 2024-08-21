@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
 import { challenges } from "@/db/schema";
 import Image from "next/image";
+import { useCallback } from "react";
+import { useAudio, useKey } from "react-use";
 
 // Props for Card
 type Props = {
@@ -28,9 +30,26 @@ export const Card = ({
     status,
     type,
  }: Props) => {
+    // setting up use audio
+    const [audio, _, controls] = useAudio({ src: audioSrc || ""}); // no need for second parameter (related to HTML, not sure what it is)
+    
+    // Using callback because this function will serve as a dependency
+    const handleClick = useCallback(() => {
+        if(disabled) return; // Break right away
+
+        // On click, use controls to play audio
+        controls.play();
+        onClick();
+    }, [disabled, onClick, controls]); // dependency array
+
+    // To use the keyboard
+    useKey(shortcut, handleClick, {}, [handleClick]); // Shortcut is the index of a question + 1 (to account for zero indexing)
+
     return (
+        
+
         <div
-            onClick={() => {}}
+            onClick={handleClick}
             // Using cn to assign dynamic classes based on selected, status, and question type
             className={cn(
                 "h-full border-2 rounded-xl border-b-4 hover:bg-black/5 p-4 lg:p-6 cursor-pointer active:border-b-2",
@@ -42,7 +61,8 @@ export const Card = ({
                 disabled && "pointer-events-none hover:bg-white",
                 type === "ASSIST" && "lg:p-3 w-full"
             )}
-        >
+        >   
+            {audio /* need to render audio "element" anywhere on screen */}
             {imageSrc && (
                 <div
                     className="relative aspect-square mb-4 max-h-[80px] lg:max-h-[150px] w-full"
