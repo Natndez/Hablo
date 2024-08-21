@@ -46,7 +46,8 @@ npm install
 - Drizzle: https://orm.drizzle.team/docs/get-started-postgresql 
 
 ## Asset Links
-- Kenney Assets: https://kenney.nl/ 
+- Kenney Assets: https://kenney.nl/
+- SVG Repo: https://www.svgrepo.com/  
 - Freesound: https://freesound.org/ 
 - Elevenlabs AI: https://elevenlabs.io/ 
 - Flagpack: https://flagpack.xyz/ 
