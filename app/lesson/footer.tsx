@@ -19,6 +19,8 @@ export const Footer = ({
  }: Props ) => {
     // Footer button will depend on device type...
     const isMobile = useMedia("(max-width: 1024px)");
+    // To press enter key to move on instead of clicking button
+    useKey("Enter", onCheck, {}, [onCheck]) 
     
     return (
         <footer className={cn(
@@ -27,6 +29,7 @@ export const Footer = ({
             status === "wrong" && "border-transparent bg-rose-100",
         )}>
             <div className="max-w-[1040px] h-full mx-auto flex items-center justify-between px-6 lg:px-10">
+                {/* TODO: Add arrow icon to button */}
                 <Button
                     disabled={disabled}
                     className="ml-auto"
@@ -35,7 +38,9 @@ export const Footer = ({
                     variant={status === "wrong" ? "danger" : "secondary"}
                 >
                     {status === "none" && "Check"}
-                    {/* TODO: FINISH FOOTER */}
+                    {status === "wrong" && "Try Again"}
+                    {status === "correct" && "Next"}
+                    {status === "completed" && "Continue"}
                 </Button>
             </div>
         </footer>
