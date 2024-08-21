@@ -123,7 +123,7 @@ const main = async () => {
                 imageSrc: "/temp/man.svg", // Image
                 correct: true,  // correct or incorrect answer
                 text: "The man", // option text
-                audioSrc: "/es_man.mp3", // The audio file ref
+                audioSrc: "audio/en/en_man.mp3", // The audio file ref
             },
             {
                 id: 2, // Option id
@@ -131,7 +131,7 @@ const main = async () => {
                 imageSrc: "/temp/woman.svg", // Image
                 correct: false,  // correct or incorrect answer
                 text: "The woman", // option text
-                audioSrc: "/es_woman.mp3", // The audio file ref
+                audioSrc: "audio/en/en_woman.mp3", // The audio file ref
             },
             {
                 id: 3, // Option id
@@ -139,7 +139,7 @@ const main = async () => {
                 imageSrc: "/temp/robot.svg", // Image
                 correct: false,  // correct or incorrect answer
                 text: "The robot", // option text
-                audioSrc: "/es_robot.mp3", // The audio file ref
+                audioSrc: "audio/en/en_robot.mp3", // The audio file ref
             },
         ])
 
