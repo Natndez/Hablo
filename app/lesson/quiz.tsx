@@ -37,9 +37,23 @@ export const Quiz = ({
         return uncompletedIndex === -1 ? 0 : uncompletedIndex; // -1 means none are completed, so index would be 0 as thats the first one
     });
 
+    // tracks whenever we've selected a challenge option (answer)
+    const [selectedOption, setSelectedOption] = useState<number>(); // Number cause index is a number
+    
+    // To track challenge status
+    const [status, setStatus] = useState<"correct" | "wrong" | "none">("none");
+
     const challenge = challenges[activeIndex]; // current challenge
     const options = challenge?.challengeOptions ?? []; // current challenges options
 
+    // To select the question based on id
+    const onSelect = (id: number) => {
+        if (status !== "none" ) return; // Status should always be none by default
+
+        // Set an option as selected based on its id
+        setSelectedOption(id);
+    }
+    
     // To return the right type of title based on question type
     const title = challenge.type === "ASSIST" 
     ? "Select the correct translation" 
@@ -64,9 +78,9 @@ export const Quiz = ({
                             )}
                             <Challenge 
                                 options = {options}
-                                onSelect = {() => {}}
-                                status="none" // TODO: Change
-                                selectedOption={undefined}
+                                onSelect = {onSelect}
+                                status={status}
+                                selectedOption={selectedOption}
                                 disabled={false}
                                 type={challenge.type}
                             />
