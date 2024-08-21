@@ -5,6 +5,7 @@ import { challengeOptions, challenges } from "@/db/schema";
 import { Header } from "./header";
 import { QuestionBubble } from "./question-bubble";
 import { Challenge } from "./challenge";
+import { Footer } from "./footer";
 
 // Types :)
 type Props = {
@@ -88,6 +89,12 @@ export const Quiz = ({
                     </div>
                 </div>
             </div>
+            {/* Custom footer component to submit choice */}
+            <Footer 
+                disabled={!selectedOption}
+                status={status}
+                onCheck={() => {}}
+            />
         </>
     );
 };
