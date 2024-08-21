@@ -31,6 +31,7 @@ export const Card = ({
     return (
         <div
             onClick={() => {}}
+            // Using cn to assign dynamic classes based on selected, status, and question type
             className={cn(
                 "h-full border-2 rounded-xl border-b-4 hover:bg-black/5 p-4 lg:p-6 cursor-pointer active:border-b-2",
                 selected && "border-sky-300 bg-sky-100 hover:bg-sky-100",
@@ -53,6 +54,33 @@ export const Card = ({
                     />
                 </div>
             )}
+            <div className={cn(
+                    "flex items-center justify-between",
+                    type === "ASSIST" && "flex-row-reverse"
+                )}>
+                    {type === "ASSIST" && <div />}
+                    <p className={cn(
+                        "text-neutral-600 text-sm lg:text-base",
+                        selected && "text-sky-500",
+                        selected && status === "correct" 
+                            && "text-green-500",
+                        selected && status === "wrong" 
+                            && "text-rose-500",
+                    )}>
+                        {/* "text" field contains text from challenge options */}
+                        {text} 
+                    </p>
+                    <div className={cn(
+                        "lg:w-[30px] lg:h-[30px] w-[20px] h-[20px] border-2 flex items-center justify-center rounded-lg text-neutral-400 lg:text-[15px] text-xs font-semibold",
+                        selected && "border-sky-300 text-sky-500",
+                        selected && status === "correct" 
+                            && "border-green-500 text-green-500",
+                        selected && status === "wrong" 
+                            && "border-rose-500 text-rose-500",
+                    )}>
+                        {shortcut}
+                    </div>
+            </div>
         </div>
     );
 }
