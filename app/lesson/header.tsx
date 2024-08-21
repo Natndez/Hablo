@@ -24,7 +24,7 @@ export const Header = ({
     return (
             <header className="lg:pt-[50px] pt-[20px] px-10 flex gap-x-7 items-center justify-between max-w-[1140px] mx-auto w-full">
                 <X 
-                    onClick={open} // TODO: add exit onClick
+                    onClick={open}
                     className="text-slate-500 hover:opactity-75 transition cursor-pointer"
                 />
                 {/* From shad */}
