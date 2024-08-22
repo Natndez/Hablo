@@ -16,7 +16,7 @@ type Props = {
         completed: boolean;
         challengeOptions: typeof challengeOptions.$inferSelect[];
     })[];
-    userSubscription: any; // TODO: replace
+    userSubscription: any; // TODO: replace when subscriptions are implemented
 }
 
 export const Quiz = ({ 
@@ -48,6 +48,11 @@ export const Quiz = ({
     const challenge = challenges[activeIndex]; // current challenge
     const options = challenge?.challengeOptions ?? []; // current challenges options
 
+    // Method to get the next challenge index
+    const onNext = () => {
+        setActiveIndex((current) => current + 1)
+    }
+
     // To select the question based on id
     const onSelect = (id: number) => {
         if (status !== "none" ) return; // Status should always be none by default
@@ -55,6 +60,32 @@ export const Quiz = ({
         // Set an option as selected based on its id
         setSelectedOption(id);
     }
+
+    // To advance to the next challenge
+    const onContinue = () => {
+        // Must have an option selected to continue
+        if(!selectedOption) return;
+
+        // So that a user can retry a question
+        if (status === "wrong") {
+            setStatus("none"); // back to default
+            setSelectedOption(undefined) // Nothing is selected anymore
+        }
+        // So that a user can move on to the next question
+        if (status === "correct") {
+            onNext() // To update the index
+            setStatus("none"); // back to default
+            setSelectedOption(undefined) // Nothing is selected anymore
+        }
+        // Getting the correct option
+        const correctOption = options.find((option) => option.correct);
+
+        if(correctOption && correctOption.id === selectedOption) {
+            console.log("Correct option"); // Debugging
+        } else {
+            console.error("Wrong loser!")
+        }
+    };
     
     // To return the right type of title based on question type
     const title = challenge.type === "ASSIST" 
@@ -94,7 +125,7 @@ export const Quiz = ({
             <Footer 
                 disabled={!selectedOption}
                 status={status}
-                onCheck={() => {}}
+                onCheck={onContinue}
             />
         </>
     );
