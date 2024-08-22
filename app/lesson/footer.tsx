@@ -30,6 +30,18 @@ export const Footer = ({
         )}>
             <div className="max-w-[1040px] h-full mx-auto flex items-center justify-between px-6 lg:px-10">
                 {/* TODO: Add arrow icon to button */}
+                {status === "correct" && (
+                    <div className="text-green-500 font-bold text-base lg:text-2xl flex items-center">
+                        <CheckCircle className="h-6 w-6 lg:h-10 lg:w-10 mr-4"/>
+                        Nice work!
+                    </div>
+                )}
+                {status === "wrong" && (
+                    <div className="text-rose-500 font-bold text-base lg:text-2xl flex items-center">
+                        <XCircle className="h-6 w-6 lg:h-10 lg:w-10 mr-4"/>
+                        Oops, give it another shot.
+                    </div>
+                )}
                 <Button
                     disabled={disabled}
                     className="ml-auto"

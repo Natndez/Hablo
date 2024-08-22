@@ -41,6 +41,7 @@ export const Quiz = ({
     // tracks whenever we've selected a challenge option (answer)
     const [selectedOption, setSelectedOption] = useState<number>(); // Number cause index is a number
     
+    // TODO: Adjust challenge status here for debugging
     // To track challenge status
     const [status, setStatus] = useState<"correct" | "wrong" | "none">("none");
 
