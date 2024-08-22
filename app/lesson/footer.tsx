@@ -1,5 +1,5 @@
 import { useKey, useMedia } from "react-use";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, XCircle, MoveRight, IterationCw, CornerDownLeft } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -59,9 +59,24 @@ export const Footer = ({
                     variant={status === "wrong" ? "danger" : "secondary"}
                 >
                     {/* TODO: Add different icons for each option */}
-                    {status === "none" && "Check"}
-                    {status === "wrong" && "Try Again"}
-                    {status === "correct" && "Next"}
+                    {status === "none" && (
+                        <div className="flex gap-3 items-center text-center justify-center">
+                            Check
+                            <CornerDownLeft className="w-5 h-5"/>
+                        </div>
+                    )}
+                    {status === "wrong" && (
+                        <div className="flex gap-3 items-center text-center justify-center">
+                            Try again
+                            <IterationCw className="w-5 h-5"/>
+                        </div>
+                    )}
+                    {status === "correct" && (
+                        <div className="flex gap-3 items-center text-center justify-center">
+                        Next
+                        <MoveRight className="w-5 h-5"/>
+                    </div>
+                    )}
                     {status === "completed" && "Continue"}
                 </Button>
             </div>
