@@ -80,6 +80,11 @@ export const Quiz = ({
         // Getting the correct option
         const correctOption = options.find((option) => option.correct);
 
+        // Just in case
+        if (!correctOption) {
+            return; // Nothing to return if there is not a correct option
+        }
+ 
         if(correctOption && correctOption.id === selectedOption) {
             console.log("Correct option"); // Debugging
         } else {
