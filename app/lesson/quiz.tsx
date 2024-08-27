@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { challengeOptions, challenges } from "@/db/schema";
 import { Header } from "./header";
 import { QuestionBubble } from "./question-bubble";
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
+import { upsertChallengeProgress } from "@/actions/challenge-progress";
+import { toast } from "sonner";
 
 // Types :)
 type Props = {
@@ -26,6 +28,9 @@ export const Quiz = ({
     initialLessonChallenges,
     userSubscription,
  }: Props) => {
+    
+    const [pending, startTransition] = useTransition(); 
+
     // States so hearts and percentage update live
     const [hearts, setHearts] = useState(initialHearts);
     const [percentage, setPercentage] = useState(initialPercentage);
@@ -77,18 +82,39 @@ export const Quiz = ({
             setStatus("none"); // back to default
             setSelectedOption(undefined) // Nothing is selected anymore
         }
+        
         // Getting the correct option
         const correctOption = options.find((option) => option.correct);
 
-        // Just in case
+        // Just in case (gotta have a right answer)
         if (!correctOption) {
             return; // Nothing to return if there is not a correct option
         }
  
         if(correctOption && correctOption.id === selectedOption) {
-            console.log("Correct option"); // Debugging
+            
+            startTransition(() => {
+                upsertChallengeProgress(challenge.id) // From server actions
+                    .then((response) => {
+                        if(response?.error === "hearts") { // See challenge-progress.ts
+                            console.log("Missing hearts");
+                            return;
+                        }
+                        setStatus("correct");
+                        setPercentage((prev) => prev + 100 / challenges.length); // Updating percentage 
+
+                        // If initial percentage is 0, that means we're in practice
+                        if (initialPercentage === 100) {
+                            // get new hearts on the front end in practice
+                            setHearts((prev) => Math.min(prev + 1, 5));
+                        }
+                    })
+                    .catch(() => toast.error("Something went wrong. Try again, please."))
+            });
+
+
         } else {
-            console.error("Wrong loser!")
+            console.error("Wrong, loser!")
         }
     };
     
