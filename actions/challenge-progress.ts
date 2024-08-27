@@ -75,4 +75,16 @@ export const upsertChallengeProgress = async (challengeId: number) => {
         userId,
         completed: true,
     });
+
+    // Updating points
+    await db.update(userProgress).set({
+        points: currentUserProgress.points + 10,
+    }).where(eq(userProgress.userId, userId)) // This (and all other) .where() is crucial
+    
+    // Revalidating all paths that use hearts/points again
+    revalidatePath("/learn");
+    revalidatePath("/lesson");
+    revalidatePath("/quests");
+    revalidatePath("/leaderboard");
+    revalidatePath(`/lesson/${lessonId}`);
 }
