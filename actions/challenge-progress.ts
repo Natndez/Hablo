@@ -69,6 +69,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
         return; // to break method
     }
 
+    // Inserting challengeProgress values into db
     await db.insert(challengeProgress).values({
         challengeId,
         userId,
