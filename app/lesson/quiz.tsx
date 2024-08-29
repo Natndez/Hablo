@@ -114,7 +114,7 @@ export const Quiz = ({
 
 
         } else {
-            console.error("Wrong, loser!")
+            console.error("Wrong, loser!");
         }
     };
     
@@ -140,6 +140,7 @@ export const Quiz = ({
                             {challenge.type === "SELECT" && (
                                 <QuestionBubble question={challenge.question}/>
                             )}
+                            {/* TODO: Add for type assist */}
                             <Challenge 
                                 options = {options}
                                 onSelect = {onSelect}

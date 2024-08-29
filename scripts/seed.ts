@@ -113,12 +113,25 @@ const main = async () => {
                 order: 1,       // Will be the first question
                 question: 'Which one of these is "El hombre"?', // Questions will be revised later lol
             },
+            {
+                id: 2,      // Challenge Id
+                lessonId: 1, // Nouns
+                type: 'ASSIST', // Question type (they will choose for these)
+                order: 2,       // Will be the first question
+                question: '"The man"', // Questions will be revised later lol
+            },
+            {
+                id: 3,      // Challenge Id
+                lessonId: 1, // Nouns
+                type: 'SELECT', // Question type (they will choose for these)
+                order: 3,       // Will be the first question
+                question: 'Which one of these is "La Mujer"', // Questions will be revised later lol
+            },
         ]);
         // Seeding challenge options
         console.log("Seeding challenge options\n");
         await db.insert(schema.challengeOptions).values([
             {
-                id: 1, // Option id
                 challengeId: 1, // Which challenge the option belongs to (in this case "which one of these is el hombre")
                 imageSrc: "/temp/man.svg", // Image
                 correct: true,  // correct or incorrect answer
@@ -126,7 +139,6 @@ const main = async () => {
                 audioSrc: "audio/en/en_man.mp3", // The audio file ref
             },
             {
-                id: 2, // Option id
                 challengeId: 1, // Which challenge the option belongs to (in this case "which one of these is el hombre")
                 imageSrc: "/temp/woman.svg", // Image
                 correct: false,  // correct or incorrect answer
@@ -134,14 +146,59 @@ const main = async () => {
                 audioSrc: "audio/en/en_woman.mp3", // The audio file ref
             },
             {
-                id: 3, // Option id
                 challengeId: 1, // Which challenge the option belongs to (in this case "which one of these is El hombre")
                 imageSrc: "/temp/robot.svg", // Image
                 correct: false,  // correct or incorrect answer
                 text: "The robot", // option text
                 audioSrc: "audio/en/en_robot.mp3", // The audio file ref
             },
-        ])
+        ]);
+        
+        // Seeding more challenge options
+        await db.insert(schema.challengeOptions).values([
+            {
+                challengeId: 2, // Which challenge the option belongs to (in this case "which one of these is el hombre")
+                correct: true,  // correct or incorrect answer
+                text: "El Hombre", // option text
+                audioSrc: "audio/es/es_man.mp3", // The audio file ref
+            },
+            {
+                challengeId: 2, // Which challenge the option belongs to (in this case "which one of these is el hombre")
+                correct: false,  // correct or incorrect answer
+                text: "La Mujer", // option text
+                audioSrc: "audio/en/en_woman.mp3", // The audio file ref
+            },
+            {
+                challengeId: 2, // Which challenge the option belongs to (in this case "which one of these is El hombre")
+                correct: false,  // correct or incorrect answer
+                text: "El Robot", // option text
+                audioSrc: "audio/en/en_robot.mp3", // The audio file ref
+            },
+        ]);
+        await db.insert(schema.challengeOptions).values([
+            {
+                challengeId: 3, // Which challenge the option belongs to (in this case "which one of these is el hombre")
+                imageSrc: "/temp/man.svg", // Image
+                correct: false,  // correct or incorrect answer
+                text: "The man", // option text
+                audioSrc: "audio/en/en_man.mp3", // The audio file ref
+            },
+            {
+                challengeId: 3, // Which challenge the option belongs to (in this case "which one of these is el hombre")
+                imageSrc: "/temp/woman.svg", // Image
+                correct: true,  // correct or incorrect answer
+                text: "The woman", // option text
+                audioSrc: "audio/en/en_woman.mp3", // The audio file ref
+            },
+            {
+                challengeId: 3, // Which challenge the option belongs to (in this case "which one of these is El hombre")
+                imageSrc: "/temp/robot.svg", // Image
+                correct: false,  // correct or incorrect answer
+                text: "The robot", // option text
+                audioSrc: "audio/en/en_robot.mp3", // The audio file ref
+            },
+        ]);
+        
 
         console.log("Seeding finished");
 
