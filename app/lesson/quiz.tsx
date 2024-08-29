@@ -140,7 +140,9 @@ export const Quiz = ({
                             {challenge.type === "SELECT" && (
                                 <QuestionBubble question={challenge.question}/>
                             )}
-                            {/* TODO: Add for type assist */}
+                            {challenge.type === "ASSIST" && (
+                                <QuestionBubble question={challenge.question}/>
+                            )}
                             <Challenge 
                                 options = {options}
                                 onSelect = {onSelect}
