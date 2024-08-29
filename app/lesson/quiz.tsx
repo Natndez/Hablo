@@ -92,7 +92,6 @@ export const Quiz = ({
         }
  
         if(correctOption && correctOption.id === selectedOption) {
-            
             startTransition(() => {
                 upsertChallengeProgress(challenge.id) // From server actions
                     .then((response) => {
@@ -148,7 +147,7 @@ export const Quiz = ({
                                 onSelect = {onSelect}
                                 status={status}
                                 selectedOption={selectedOption}
-                                disabled={false}
+                                disabled={pending}
                                 type={challenge.type}
                             />
                         </div>
@@ -157,7 +156,7 @@ export const Quiz = ({
             </div>
             {/* Custom footer component to submit choice */}
             <Footer 
-                disabled={!selectedOption}
+                disabled={pending || !selectedOption}
                 status={status}
                 onCheck={onContinue}
             />
