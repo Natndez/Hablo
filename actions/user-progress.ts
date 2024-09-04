@@ -57,4 +57,14 @@ export const upsertUserProgress = async (courseId: number) => {
     revalidatePath("/courses");
     revalidatePath("/learn");
     redirect("/learn");
+};
+
+// Server action to reduce heart count
+export const reduceHearts = async (challengeId: number) => {
+    // users id
+    const { userId } = await auth();
+
+    if (!userId){
+        throw new Error("Unauthorized")
+    }
 }
