@@ -2,8 +2,9 @@
 
 import db from "@/db/drizzle";
 import { getCourseById, getUserProgress } from "@/db/queries";
-import { userProgress } from "@/db/schema";
+import { challengeProgress, userProgress } from "@/db/schema";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -66,5 +67,24 @@ export const reduceHearts = async (challengeId: number) => {
 
     if (!userId){
         throw new Error("Unauthorized")
+    };
+
+    const currentUserProgress = await getUserProgress();
+    // TODO: get user subscription
+
+    // Using this to check for exisitng challenge progress instead of our front-end method
+    const existingChallengeProgress = await db.query.challengeProgress.findFirst({
+        where: and(
+            eq(challengeProgress.userId, userId),
+            eq(challengeProgress.challengeId, challengeId)
+        ),
+    });
+
+    // If it is practice it means we have an existing challenge progress
+    const isPractice = !!existingChallengeProgress;
+
+    // Not gonna take hearts away from users when they're practicing. That would be annoying... break method
+    if(isPractice) {
+        return { error: "Practice" }
     }
 }
