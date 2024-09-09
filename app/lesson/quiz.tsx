@@ -8,6 +8,7 @@ import { Challenge } from "./challenge";
 import { Footer } from "./footer";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { toast } from "sonner";
+import { reduceHearts } from "@/actions/user-progress";
 
 // Types :)
 type Props = {
@@ -113,7 +114,24 @@ export const Quiz = ({
 
 
         } else {
-            console.error("Wrong, loser!");
+            // Calling reduceHearts server action
+            startTransition(() => {
+                reduceHearts(challenge.id)
+                    .then((response) => {
+                        if(response?.error === "hearts"){
+                            console.error("missing hearts");
+                            return; // break method
+                        }
+
+                        setStatus("wrong");
+
+                        // In practice if error is not hearts or subscription, so if there is no error, we reduce hearts on the front end
+                        if(!response?.error) {
+                            setHearts((prev) => Math.max(prev - 1, 0));
+                        }
+                    })
+                    .catch(() => toast.error("Something went wrong."))
+            })
         }
     };
     
