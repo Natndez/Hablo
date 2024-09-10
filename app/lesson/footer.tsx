@@ -10,7 +10,7 @@ type Props = {
     disabled?: boolean;
     lessonId?: boolean; // ???
 }
-
+// TODO: FIX ISSUE WITH CLICKING NEXT BUTTON
 export const Footer = ({ 
     onCheck,
     status,
