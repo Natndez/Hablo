@@ -166,13 +166,13 @@ const main = async () => {
                 challengeId: 2, // Which challenge the option belongs to (in this case "which one of these is el hombre")
                 correct: false,  // correct or incorrect answer
                 text: "La Mujer", // option text
-                audioSrc: "audio/en/en_woman.mp3", // The audio file ref
+                audioSrc: "audio/es/es_woman.mp3", // The audio file ref
             },
             {
                 challengeId: 2, // Which challenge the option belongs to (in this case "which one of these is El hombre")
                 correct: false,  // correct or incorrect answer
                 text: "El Robot", // option text
-                audioSrc: "audio/en/en_robot.mp3", // The audio file ref
+                audioSrc: "audio/es/es_robot.mp3", // The audio file ref
             },
         ]);
         await db.insert(schema.challengeOptions).values([
